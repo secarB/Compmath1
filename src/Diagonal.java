@@ -16,10 +16,9 @@ public class Diagonal {
         this.newBMatrix = new double[size];
     }
 
-    //метод для строк, где максимальный элемент всего один
     public boolean findNewMatrix() {
         double sum;
-        int k;                                       //количество максимальных элементов
+        int k;                                      
         Integer[] swap = new Integer[array.length];
         Integer index = null;
         boolean isStrict = false;
@@ -29,10 +28,10 @@ public class Diagonal {
             sum = 0;
             k = 0;
             for (int j = 0; j < size; j++) {
-                sum += Math.abs(array[i][j]);        //сумма всех элементов строки(модулей)
-                if (Math.abs(array[i][j]) > max) {   //поиск максимального элемента
+                sum += Math.abs(array[i][j]);      
+                if (Math.abs(array[i][j]) > max) {   
                     max = Math.abs(array[i][j]);
-                    index = j;                      //индекс, куда можно переместить текущую строку
+                    index = j;                     
                     k = 1;
                 } else {
                     if (Math.abs(array[i][j]) == max && Math.abs(array[i][j]) != 0) {
@@ -40,23 +39,22 @@ public class Diagonal {
                     }
                 }
             }
-            if (k == 1) {                           //если максмальный элемент всего 1
-                if (sum - max > max) {              //преобладающего элемента нет -> false
+            if (k == 1) {                           
+                if (sum - max > max) {              
                     return false;
-                } else {                            //преобладающий элемент есть
+                } else {                          
                     if (sum - max < max) {
-                        isStrict = true;            //хотя бы одна строка должна быть <
+                        isStrict = true;       
                     }
                     if (index != null)
                         swap[index] = i;
                 }
             } else {
-                System.out.println("Преобладающих элементов больше 2-х");
-                //Вызов метода для частных случаев - перестановки
+                System.out.println("have 2 max elemnts 2-х");
                 return isConverge(array);
             }
         }
-        if (isStrict) {                                 //создание нового массива
+        if (isStrict) {                           
             for (int i = 0; i < size; i++) {
                 System.arraycopy(array[swap[i]], 0, newMatrix[i], 0, size);
                 newBMatrix[i] = bArray[swap[i]];
@@ -67,7 +65,6 @@ public class Diagonal {
         }
     }
 
-    /* Метод для проверки диагонального преобладания */
     private boolean isConverge(double[][] array) {
         boolean isConv = false;
         double[][] zamena = null;
@@ -75,11 +72,11 @@ public class Diagonal {
         Permutation permutation = new Permutation(array);
         while (!isConv && i < permutation.getFactorial(array.length)) {
             i++;
-            zamena = permutation.next();
-            isConv = checkConverge(zamena);
+            alternate = permutation.next();
+            isConv = checkConverge(alternate);
         }
-        if (isConv && zamena != null){
-            newMatrix = zamena.clone();
+        if (isConv && alternate != null){
+            newMatrix = alternate.clone();
         }
         return isConv;
     }
